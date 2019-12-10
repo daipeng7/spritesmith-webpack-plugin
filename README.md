@@ -2,10 +2,10 @@
  * @Author: daipeng
  * @Date: 2019-12-10 17:48:26
  * @LastEditors: VSCode
- * @LastEditTime: 2019-12-10 18:00:32
+ * @LastEditTime: 2019-12-10 18:24:43
  * @Description: 
  -->
-# element-theme-webpack-plugin
+# spritesmith-webpack-plugin
 
 
 > It is a webpack-plugin for sprite
@@ -13,54 +13,86 @@
 ## Installation
 
 ```shell
-npm i element-theme-webpack-plugin -D
+npm i spritesmith-webpack-plugin -D
 ```
 
 ## Usage
 ```js
 {
-    plugins: [
-        new ElementThemeWebpackPlugin({
-            config: resolve('./src/style/element-ui/element-variables.scss'),
-            out: resolve('./src/style/element-ui/theme'),
-            minimize: isProduction,
-            browsers: ['ie > 9', 'last 2 versions']
-            components: [], // 默认all
-            watch: false
-        })
-    ]
+  plugins: [
+    new SpritesmithWebpackPlugin({
+      prefix: 'icon',
+      rootPrefix: 'index',
+      resultImageType: 'png',
+      resultCssType: 'css',
+      padding: 6,
+      retinaIdentifier: '@2x',
+      retinaDPR: 2,
+      minResolution: 192,
+      unit: 'px',
+      hash: false,
+      paths: {
+        source: resolve('src/assets/sprite'),
+        result: resolve('src/style/sprite'),
+        resultCss: resolve('src/style/sprite/css'),
+        resultImage: resolve('src/style/sprite/images')
+      },
+      success() {
+        // TODO
+      }
+    })
+  ]
 }
 ```
 ## Options
-### config
-Variable file path, default `./element-variables.css`.
+### prefix
+default: icon
+css className prefix, fore example:
+> .icon-home-down{ width: 20px; height: 31px; background-position: 0px -70px; }
 
-### out
-Theme output path, default `./theme`.
+### rootPrefix
+default: index
+css className rootPrefix
 
-### minimize
-Compressed file.
+### resultImageType
+default: png
+the type of result images
 
-### browsers
-set browsers, default `['ie > 9', 'last 2 versions']`.
+### resultCssType
+default: css
+the padding value of result images
 
-### watch
-watch variable file changes then build.
+### retinaIdentifier
+default: @2x
+the identifier of image filter for retina
 
-### components
-A lists of components that you want to generate themes for.  All by default.
-
-## Config
-You can configure some options in `element-theme` by putting it in package.json:
-```json
-{
-  "element-theme": {
-    "browsers": ["ie > 9", "last 2 versions"],
-    "out": "./theme",
-    "config": "./element-variables.css",
-    "theme": "element-theme-chalk",
-    "minimize": false,
-    "components": ["button", "input"]
-  }
+### retinaDPR, minResolution
+default: retinaDPR = 2, minResolution = 192
+```css
+@media(-webkit-min-device-pixel-ratio:2),(min-resolution: 192dpi){
+	.icon-home-down,.icon-home-good,.icon-home-triangle-right,.icon-home-update {
+		display:inline-block;
+		background-repeat:no-repeat;
+		background-image:url("../images/home@2x.png?t=1575970989349");
+		background-size: 116px 101px;
+	}
 }
 ```
+### unit
+default: px
+
+### hash
+default: false
+whether hash value is required
+
+### paths
+```js
+{
+  source: resolve('src/assets/sprite'),
+  result: resolve('src/style/sprite'),
+  resultCss: resolve('src/style/sprite/css'),
+  resultImage: resolve('src/style/sprite/images')
+}
+```
+### success
+default: null
