@@ -2,7 +2,7 @@
  * @Author: daipeng
  * @Date: 2019-12-10 17:48:26
  * @LastEditors: VSCode
- * @LastEditTime: 2019-12-10 18:24:43
+ * @LastEditTime: 2019-12-11 15:50:27
  * @Description: 
  -->
 # spritesmith-webpack-plugin
@@ -31,6 +31,7 @@ npm i spritesmith-webpack-plugin -D
       minResolution: 192,
       unit: 'px',
       hash: false,
+      watch: false,
       paths: {
         source: resolve('src/assets/sprite'),
         result: resolve('src/style/sprite'),
@@ -85,6 +86,9 @@ default: px
 default: false
 whether hash value is required
 
+### watch
+default: false
+this can watch images by directory.
 ### paths
 ```js
 {

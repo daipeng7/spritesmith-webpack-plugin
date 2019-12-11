@@ -2,7 +2,7 @@
  * @Author: daipeng
  * @Date: 2019-12-02 20:33:35
  * @LastEditors: VSCode
- * @LastEditTime: 2019-12-11 09:48:32
+ * @LastEditTime: 2019-12-11 15:48:45
  * @Description: SpriteSmithWebpackPlugin
  */
 const spritemith = require('gulp.spritesmith');
@@ -30,6 +30,7 @@ export default class SpriteSmithWebpackPlugin {
 			retinaDPR: 2,
 			unit: 'px',
 			hash: false,
+			watch: false,
 			cssTemplate: null,
 			success: null
 		}, config);
@@ -56,11 +57,11 @@ export default class SpriteSmithWebpackPlugin {
 	 */
 	spriteStart() {
 		return () => {
-			const { paths } = this.config;
+			const { paths, watch } = this.config;
 			const list = createEntryList(paths.source);
 			this.cleanHistory(paths.result);
 			return this.batchSpriteHandler(list).then(res => {
-				this.spriteWatch(list);
+				if (watch) this.spriteWatch(list);
 				return res;
 			});
 		};
