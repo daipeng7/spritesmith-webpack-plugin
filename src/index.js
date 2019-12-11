@@ -2,7 +2,7 @@
  * @Author: daipeng
  * @Date: 2019-12-02 20:33:35
  * @LastEditors: VSCode
- * @LastEditTime: 2019-12-10 10:13:12
+ * @LastEditTime: 2019-12-11 09:48:32
  * @Description: SpriteSmithWebpackPlugin
  */
 const spritemith = require('gulp.spritesmith');
@@ -17,7 +17,7 @@ const ora = require('ora');
 
 const { createEntryList, spriteTemplate } = require('./utils');
 
-class SpriteSmithWebpackPlugin {
+export default class SpriteSmithWebpackPlugin {
 	constructor(config) {
 		this.config = Object.assign({
 			prefix: 'icon',
@@ -221,4 +221,3 @@ class SpriteSmithWebpackPlugin {
 	}
 }
 
-module.exports = SpriteSmithWebpackPlugin;
