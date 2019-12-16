@@ -1,6 +1,6 @@
 {
   "name": "spritesmith-webpack-plugin",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "It is a webpack-plugin for sprite",
   "homepage": "https://github.com/daipeng7/spritesmith-webpack-plugin",
   "repository": {
