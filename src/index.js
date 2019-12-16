@@ -2,7 +2,7 @@
  * @Author: daipeng
  * @Date: 2019-12-02 20:33:35
  * @LastEditors: VSCode
- * @LastEditTime: 2019-12-11 15:48:45
+ * @LastEditTime: 2019-12-16 14:42:09
  * @Description: SpriteSmithWebpackPlugin
  */
 const spritemith = require('gulp.spritesmith');
@@ -17,7 +17,7 @@ const ora = require('ora');
 
 const { createEntryList, spriteTemplate } = require('./utils');
 
-export default class SpriteSmithWebpackPlugin {
+class SpriteSmithWebpackPlugin {
 	constructor(config) {
 		this.config = Object.assign({
 			prefix: 'icon',
@@ -38,12 +38,11 @@ export default class SpriteSmithWebpackPlugin {
 	}
 
 	apply(compiler) {
-		compiler.hooks.emit.tapAsync('SpriteSmithWebpackPlugin', (compiler, callback) => {
-			gulp.task('sprite', this.spriteStart());
-			this.spinner = ora('sprite build...').start();;
-			series('sprite', () => {
+		compiler.hooks.afterPlugins.tap('SpriteSmithWebpackPlugin', async (compiler) => {
+			this.spinner = ora('sprite build...').start();
+			await this.spriteStart().then(res => {
 				this.spinner.succeed('sprite is builded!');
-				callback();
+				return res;
 			});
 		});
 	}
@@ -56,15 +55,13 @@ export default class SpriteSmithWebpackPlugin {
 	 * @returns {function}
 	 */
 	spriteStart() {
-		return () => {
-			const { paths, watch } = this.config;
-			const list = createEntryList(paths.source);
-			this.cleanHistory(paths.result);
-			return this.batchSpriteHandler(list).then(res => {
-				if (watch) this.spriteWatch(list);
-				return res;
-			});
-		};
+		const { paths, watch } = this.config;
+		const list = createEntryList(paths.source);
+		this.cleanHistory(paths.result);
+		return this.batchSpriteHandler(list).then(res => {
+			if (watch) this.spriteWatch(list);
+			return res;
+		});
 	}
 
 	/**
@@ -222,3 +219,4 @@ export default class SpriteSmithWebpackPlugin {
 	}
 }
 
+module.exports = SpriteSmithWebpackPlugin;
