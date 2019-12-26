@@ -1,8 +1,8 @@
 /*
  * @Author: daipeng
  * @Date: 2019-07-03 11:31:39
- * @LastEditors: VSCode
- * @LastEditTime: 2019-12-06 17:46:16
+ * @LastEditors  : VSCode
+ * @LastEditTime : 2019-12-25 20:14:05
  * @Description: utils
  */
 const fs = require('fs');
@@ -20,9 +20,7 @@ const mineType = ['png'];
 const createHash = (options) => {
 	// 创建一个让每个文件通过的 stream 通道
 	const stream = through.obj(function(file, enc, cb) {
-		if (file.isBuffer()) {
-			debugger;
-		}
+		if (file.isBuffer()) {}
 
 		// 确保文件进去下一个插件
 		this.push(file);

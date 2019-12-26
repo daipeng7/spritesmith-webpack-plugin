@@ -1,8 +1,8 @@
 /*
  * @Author: daipeng
  * @Date: 2019-12-02 20:33:35
- * @LastEditors: VSCode
- * @LastEditTime: 2019-12-16 14:51:51
+ * @LastEditors  : VSCode
+ * @LastEditTime : 2019-12-26 11:30:12
  * @Description: SpriteSmithWebpackPlugin
  */
 const spritemith = require('gulp.spritesmith');
@@ -17,7 +17,7 @@ const ora = require('ora');
 
 const { createEntryList, spriteTemplate } = require('./utils');
 
-export default class SpriteSmithWebpackPlugin {
+class SpriteSmithWebpackPlugin {
 	constructor(config) {
 		this.config = Object.assign({
 			prefix: 'icon',
@@ -35,16 +35,23 @@ export default class SpriteSmithWebpackPlugin {
 			success: null
 		}, config);
 		this.watcher = null;
+		this.inited = false;
 	}
 
 	apply(compiler) {
-		compiler.hooks.afterPlugins.tap('SpriteSmithWebpackPlugin', async (compiler) => {
-			this.spinner = ora('sprite build...').start();
-			await this.spriteStart().then(res => {
-				this.spinner.succeed('sprite is builded!');
-				return res;
+		['watchRun', 'beforeRun'].forEach(type => {
+			compiler.hooks[type].tapAsync('SpriteSmithWebpackPlugin', (compiler, callback) => {
+				if(this.inited) return callback();
+				this.inited = true;
+				this.spinner = ora('sprite build...').start();
+				this.spriteStart().then(res => {
+					this.spinner.succeed('sprite is builded!');
+					callback();
+					return res;
+				});
 			});
-		});
+		})
+		
 	}
 
 	/**
@@ -122,7 +129,6 @@ export default class SpriteSmithWebpackPlugin {
 					file.contents = Buffer.from(content);
 				}
 			}).pipe(gulp.dest(result).on('end', resolve).on('error', reject));
-			return task;
 		}).then(res => {
 			return { imgName, cssName, imageAbsolute, cssAbsolute };
 		});
@@ -218,3 +224,5 @@ export default class SpriteSmithWebpackPlugin {
 		}).on('ready', () => this.spinner.info('Initial scan sprite complete. Ready for changes'));
 	}
 }
+
+module.exports = SpriteSmithWebpackPlugin;

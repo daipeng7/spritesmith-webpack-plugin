@@ -1,6 +1,6 @@
 {
   "name": "spritesmith-webpack-plugin",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "It is a webpack-plugin for sprite",
   "homepage": "https://github.com/daipeng7/spritesmith-webpack-plugin",
   "repository": {
@@ -23,7 +23,7 @@
     "dist"
   ],
   "license": "ISC",
-  "main": "./dist/cjs.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src -d dist --copy-files | bunyan"
   },
@@ -34,6 +34,7 @@
     "gulp-load-plugins": "^2.0.1",
     "gulp.spritesmith": "^6.11.0",
     "ora": "^4.0.3",
+    "rimraf": "^3.0.0",
     "run-sequence": "^2.2.1"
   },
   "devDependencies": {
