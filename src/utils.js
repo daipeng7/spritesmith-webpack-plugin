@@ -2,12 +2,12 @@
  * @Author: daipeng
  * @Date: 2019-07-03 11:31:39
  * @LastEditors  : VSCode
- * @LastEditTime : 2019-12-25 20:14:05
+ * @LastEditTime : 2020-01-07 16:33:05
  * @Description: utils
  */
 const fs = require('fs');
 const through = require('through2');
-const gutil = require('gulp-util');
+const hash = require('object-hash');
 const path = require('path');
 const logger = require('gulplog');
 
@@ -75,8 +75,11 @@ const spriteTemplate = function(spriteData, options = {}) {
 	const { spritesheet, sprites } = spriteData;
 	const { prefix, dirName, retinaIdentifier, retinaDPR, minResolution, unit } = options;
 	const classNames = [];
-	const timestamp = Date.now();
-
+	const pxList = spriteData.items.reduce((arr, item) => {
+		arr.push(...Object.values(item.px));
+		return arr;
+	}, [])
+	const hashtag = hash(pxList);
 	const itemStyleList = sprites.map(sprite => {
 		const className = `.${prefix}-${dirName}-${sprite.name}`;
 		const offsetX = `${parseInt(sprite.offset_x)}${unit}`;
@@ -89,7 +92,7 @@ const spriteTemplate = function(spriteData, options = {}) {
 	const commonStyle = [];
 	commonStyle.push(`${classNames.join(',')} {`);
 	commonStyle.push(`\tdisplay:inline-block;`);
-	commonStyle.push(`\tbackground-image: url("${spritesheet.image}?t=${timestamp}");`);
+	commonStyle.push(`\tbackground-image: url("${spritesheet.image}?h=${hashtag}");`);
 	commonStyle.push(`\tbackground-size: ${spritesheet.width}${unit} ${spritesheet.height}${unit};`);
 	commonStyle.push(`\tbackground-repeat: no-repeat;`);
 	commonStyle.push(`}`);
@@ -100,7 +103,7 @@ const spriteTemplate = function(spriteData, options = {}) {
 		commonStyle.push(`\t${classNames.join(',')} {`);
 		commonStyle.push(`\t\tdisplay:inline-block;`);
 		commonStyle.push(`\t\tbackground-repeat:no-repeat;`);
-		commonStyle.push(`\t\tbackground-image:url("${spriteData.retina_spritesheet.image}?t=${timestamp}");`);
+		commonStyle.push(`\t\tbackground-image:url("${spriteData.retina_spritesheet.image}?h=${hashtag}");`);
 		commonStyle.push(`\t\tbackground-size: ${spritesheet.width}${unit} ${spritesheet.height}${unit};`);
 		commonStyle.push(`\t}`);
 		commonStyle.push(`}`);

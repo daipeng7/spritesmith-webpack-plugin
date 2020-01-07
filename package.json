@@ -1,6 +1,6 @@
 {
   "name": "spritesmith-webpack-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "It is a webpack-plugin for sprite",
   "homepage": "https://github.com/daipeng7/spritesmith-webpack-plugin",
   "repository": {
@@ -33,6 +33,7 @@
     "gulp-hash": "^4.2.2",
     "gulp-load-plugins": "^2.0.1",
     "gulp.spritesmith": "^6.11.0",
+    "object-hash": "^2.0.1",
     "ora": "^4.0.3",
     "rimraf": "^3.0.0",
     "run-sequence": "^2.2.1"
