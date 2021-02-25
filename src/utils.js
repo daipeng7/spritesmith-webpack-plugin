@@ -90,11 +90,11 @@ const spriteTemplate = function(spriteData, options = {}) {
 		return `${className}{ width: ${width}; height: ${height}; background-position: ${offsetX} ${offsetY}; }`;
 	});
 	const commonStyle = [];
-	
+
 	commonStyle.push(`${classNames.join(',')} {`);
 	commonStyle.push(`\tdisplay:inline-block;`);
 	if (options.cdnDir) {
-		commonStyle.push(`\tbackground-image: url("${path.join(options.cdnDir, path.basename(spritesheet.image))}?h=${hashtag}");`);
+		commonStyle.push(`\tbackground-image: url("${options.cdnDir + path.basename(spritesheet.image)}?h=${hashtag}");`);
 	} else {
 		commonStyle.push(`\tbackground-image: url("${spritesheet.image}?h=${hashtag}");`);
 	}
