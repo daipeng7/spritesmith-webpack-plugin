@@ -32,7 +32,8 @@ class SpriteSmithWebpackPlugin {
 			hash: false,
 			watch: false,
 			cssTemplate: null,
-			success: null
+			success: null,
+			cdnDir: null
 		}, config);
 		this.watcher = null;
 		this.inited = false;
@@ -124,7 +125,11 @@ class SpriteSmithWebpackPlugin {
 					cssName = basename;
 					cssAbsolute = path.resolve(resultCss, basename);
 					let content = file.contents.toString();
-					content = content.replace(new RegExp(originRetinaImgName, 'gi'), retinaImgName);
+					
+					if (originRetinaImgName && retinaImgName) {
+						content = content.replace(new RegExp(originRetinaImgName, 'gi'), retinaImgName);
+					}
+
 					content = content.replace(new RegExp(originImgName, 'gi'), imgName);
 					file.contents = Buffer.from(content);
 				}

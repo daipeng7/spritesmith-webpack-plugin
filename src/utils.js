@@ -90,9 +90,15 @@ const spriteTemplate = function(spriteData, options = {}) {
 		return `${className}{ width: ${width}; height: ${height}; background-position: ${offsetX} ${offsetY}; }`;
 	});
 	const commonStyle = [];
+	
 	commonStyle.push(`${classNames.join(',')} {`);
 	commonStyle.push(`\tdisplay:inline-block;`);
-	commonStyle.push(`\tbackground-image: url("${spritesheet.image}?h=${hashtag}");`);
+	if (options.cdnDir) {
+		commonStyle.push(`\tbackground-image: url("${path.join(options.cdnDir, path.basename(spritesheet.image))}?h=${hashtag}");`);
+	} else {
+		commonStyle.push(`\tbackground-image: url("${spritesheet.image}?h=${hashtag}");`);
+	}
+	
 	commonStyle.push(`\tbackground-size: ${spritesheet.width}${unit} ${spritesheet.height}${unit};`);
 	commonStyle.push(`\tbackground-repeat: no-repeat;`);
 	commonStyle.push(`}`);
@@ -103,7 +109,11 @@ const spriteTemplate = function(spriteData, options = {}) {
 		commonStyle.push(`\t${classNames.join(',')} {`);
 		commonStyle.push(`\t\tdisplay:inline-block;`);
 		commonStyle.push(`\t\tbackground-repeat:no-repeat;`);
-		commonStyle.push(`\t\tbackground-image:url("${spriteData.retina_spritesheet.image}?h=${hashtag}");`);
+		if (options.cdnDir) {
+			commonStyle.push(`\tbackground-image: url("${path.join(options.cdnDir, path.basename(retina_spritesheet.image))}?h=${hashtag}");`);
+		} else {
+			commonStyle.push(`\t\tbackground-image:url("${spriteData.retina_spritesheet.image}?h=${hashtag}");`);
+		}
 		commonStyle.push(`\t\tbackground-size: ${spritesheet.width}${unit} ${spritesheet.height}${unit};`);
 		commonStyle.push(`\t}`);
 		commonStyle.push(`}`);
